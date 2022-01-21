@@ -1,0 +1,7 @@
+==> you provie five char guesses
+==> each guess must be a word
+==> when you press enter 
+    ==> you see the satatus of you last guess
+    ==> letters are in worong places are in yellow background
+    ==> false letters are with grey background
+    ==> correct letter + correct place ; the letter with green background
