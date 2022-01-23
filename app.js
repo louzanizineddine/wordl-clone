@@ -1,20 +1,20 @@
 import {wordList} from './WordList.js'
 console.log(wordList)
+const word = wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
 const  gird = document.getElementById("grid");
 const alertDiv = document.getElementById('alert');
-const word = 'APPLE';
 let NumberOFAttempts = 0;
 let userGuess = ''
 // we create the gird for the game
 const buildGrid = function(){
-    for(i = 0 ; i <= 5; i ++){
+    for(let i = 0 ; i <= 5; i ++){
         // we create a new row
         const row = document.createElement('div')
         row.className = 'row';
         row.classList.add(`${i+1}-row`)
         gird.appendChild(row)
         // we create the cells 
-        for (j = 0 ; j <= 4 ; j++){
+        for (let j = 0 ; j <= 4 ; j++){
             const cell = document.createElement('div')
             cell.className  = 'cell'
             cell.classList.add(`${i+1}-${j+1}-cell`)
@@ -29,7 +29,7 @@ const buildGrid = function(){
 
 const getCurrentRow = function() {
     const children = gird.children;
-    for ( i = 0 ; i < children.length; i++ ) {
+    for ( let i = 0 ; i < children.length; i++ ) {
         if (children[i].classList.contains('active-row')){
             return [i + 1 , children[i]]
         }
@@ -39,7 +39,7 @@ const getCurrentRow = function() {
 const getCurrentCell = function() {
     const currentRow = getCurrentRow()[0];
     const cells = document.getElementsByClassName('row')[currentRow - 1].children;
-    for ( i = 0 ; i < cells.length; i++ ) {
+    for ( let i = 0 ; i < cells.length; i++ ) {
         if (cells[i].classList.contains('active-cell')){
             return [i + 1 , cells[i]]
         }
@@ -57,7 +57,7 @@ const ListenToUserGuess = function(){
             console.log(userGuess)
             getCurrentCell()[1].style.color = 'white'
             getCurrentCell()[1].style.border = '2px solid white'
-            currentCell = getCurrentCell()[0]
+            let currentCell = getCurrentCell()[0]
             // if the current cell is the last 
             // one we remove the active cell and add it to the next cell
             if (currentCell != 5){
@@ -76,6 +76,7 @@ const ListenToUserGuess = function(){
                 console.log('your guess is going to be evaluated')
                 NumberOFAttempts += 1;
                 if (evaluateUserGuess(userGuess)){
+                    showAttemptStatus(getCurrentRow()[0] - 1)
                     alertDiv.innerHTML = `Wow you gussed the word correctly only using  ${NumberOFAttempts} attempt`
                 }
                 else {
@@ -107,7 +108,8 @@ const ListenToUserGuess = function(){
         }
 
         if (e.key == 'Backspace'){
-            currentCell = getCurrentCell()[0]
+            let currentCell = getCurrentCell()[0]
+            console.log()
             console.log(currentCell)
             // if we are in the first cell no need to delete the active-cell class
             if (currentCell == 1){
@@ -123,8 +125,8 @@ const ListenToUserGuess = function(){
                 console.log(userGuess)
                 getCurrentCell()[1].style.color = '#aaa'
                 getCurrentCell()[1].style.border = '1px solid #aaa'
-                getCurrentRow()[1].children[currentCell - 1].classList.remove('active-cell')
                 getCurrentRow()[1].children[currentCell - 2].classList.add('active-cell')
+                getCurrentRow()[1].children[currentCell - 1].classList.remove('active-cell')
             }
         }
     })
@@ -135,8 +137,8 @@ const evaluateUserGuess = function (userGuess){
 }
 
 const UpdateClasses = function(rowNumber){
-    cells = gird.children[rowNumber].children
-    for (i = 0 ; i <= 4 ; i++){
+    let cells = gird.children[rowNumber].children
+    for (let i = 0 ; i <= 4 ; i++){
         if (cells[i].classList.contains('active-cell')){
             cells[i].classList.remove('active-cell')
         }
@@ -148,13 +150,8 @@ const UpdateClasses = function(rowNumber){
 }
 
 const showAttemptStatus = function(rowNumber) {
-    // firstChar = userGuess[0];
-    // secondChar= userGuess[1];
-    // thridchar = userGuess[2];
-    // fouthChar = userGuess[3];
-    // fifthChar = userGuess[4];
-    cells  = gird.children[rowNumber].children
-    i = 0
+    let cells  = gird.children[rowNumber].children
+    let i = 0
     for (let cell of cells) {
         if (cell.innerHTML == word[i]){
             cell.style.backgroundColor = 'green';
@@ -168,7 +165,6 @@ const showAttemptStatus = function(rowNumber) {
                 cell.style.backgroundColor = 'red';
             }
         }
-        
         i += 1;
     }
 
