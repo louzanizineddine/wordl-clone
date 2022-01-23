@@ -1,3 +1,5 @@
+import {wordList} from './WordList.js'
+console.log(wordList)
 const  gird = document.getElementById("grid");
 const alertDiv = document.getElementById('alert');
 const word = 'APPLE';
@@ -69,13 +71,12 @@ const ListenToUserGuess = function(){
         }
 
         if (e.key == 'Enter'){
+            // we check the attemps only if the word has 5 char
             if (userGuess.length == 5){
                 console.log('your guess is going to be evaluated')
                 NumberOFAttempts += 1;
                 if (evaluateUserGuess(userGuess)){
-                    setTimeout(() => {
-                        alertDiv.innerHTML = `Wow you gussed the word correctly only using  ${NumberOFAttempts} attempt`
-                    } , 0)
+                    alertDiv.innerHTML = `Wow you gussed the word correctly only using  ${NumberOFAttempts} attempt`
                 }
                 else {
                     // we show the right letters that are in right places
@@ -147,7 +148,30 @@ const UpdateClasses = function(rowNumber){
 }
 
 const showAttemptStatus = function(rowNumber) {
-    
+    // firstChar = userGuess[0];
+    // secondChar= userGuess[1];
+    // thridchar = userGuess[2];
+    // fouthChar = userGuess[3];
+    // fifthChar = userGuess[4];
+    cells  = gird.children[rowNumber].children
+    i = 0
+    for (let cell of cells) {
+        if (cell.innerHTML == word[i]){
+            cell.style.backgroundColor = 'green';
+        }
+        else {
+            // we have to case : if the letter does not even exist so the grey color 
+            // if the letter exist but in defferent locaton we show the orange color
+            if (word.includes(cell.innerHTML)) {
+                cell.style.backgroundColor = 'grey';
+            }else {
+                cell.style.backgroundColor = 'red';
+            }
+        }
+        
+        i += 1;
+    }
+
 }
 
 buildGrid();
