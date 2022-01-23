@@ -1,5 +1,4 @@
 import {wordList} from './WordList.js'
-console.log(wordList)
 const word = wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
 const  gird = document.getElementById("grid");
 const alertDiv = document.getElementById('alert');
@@ -54,7 +53,6 @@ const ListenToUserGuess = function(){
             // we change the input of the cell of what the user has typed
             getCurrentCell()[1].innerHTML = e.key.toUpperCase();
             userGuess += e.key.toUpperCase()
-            console.log(userGuess)
             getCurrentCell()[1].style.color = 'white'
             getCurrentCell()[1].style.border = '2px solid white'
             let currentCell = getCurrentCell()[0]
@@ -64,16 +62,13 @@ const ListenToUserGuess = function(){
                 getCurrentRow()[1].children[currentCell].classList.add('active-cell')
                 getCurrentRow()[1].children[currentCell - 1].classList.remove('active-cell')
             }
-            // if we are in the last cell there is no need to delete the last cell
             else {
-                // getCurrentRow()[1].children[currentCell - 1].classList.remove('active-cell')
             }
         }
 
         if (e.key == 'Enter'){
             // we check the attemps only if the word has 5 char
             if (userGuess.length == 5){
-                console.log('your guess is going to be evaluated')
                 NumberOFAttempts += 1;
                 if (evaluateUserGuess(userGuess)){
                     showAttemptStatus(getCurrentRow()[0] - 1)
@@ -87,7 +82,6 @@ const ListenToUserGuess = function(){
                     //  we romve all active-cell class from the current row
                     // we add the active-cell class the first row in the next row
                     // we remove the active-row class from the curretn row and add it to the next one
-                    console.log('your attempt has been failed')
                     userGuess = ''
                     if (NumberOFAttempts <= 5){
                         UpdateClasses(getCurrentRow()[0] - 1)
