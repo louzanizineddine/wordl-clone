@@ -1,6 +1,7 @@
 const  gird = document.getElementById("grid");
 const alertDiv = document.getElementById('alert');
 const word = 'APPLE';
+let NumberOFAttempts = 0;
 let userGuess = ''
 // we create the gird for the game
 const buildGrid = function(){
@@ -70,23 +71,37 @@ const ListenToUserGuess = function(){
         if (e.key == 'Enter'){
             if (userGuess.length == 5){
                 console.log('your guess is going to be evaluated')
+                NumberOFAttempts += 1;
                 if (evaluateUserGuess(userGuess)){
-                    console.log('nice you guessed to word correctly ')
-                    return
+                    setTimeout(() => {
+                        alertDiv.innerHTML = `Wow you gussed the word correctly only using  ${NumberOFAttempts} attempt`
+                    } , 0)
                 }
                 else {
+                    // we show the right letters that are in right places
+                    // we show the right letters but in the wrong places
+                    // we show the wrong letters that does not exist in the word
+                    showAttemptStatus(getCurrentRow()[0] - 1)
                     //  we romve all active-cell class from the current row
                     // we add the active-cell class the first row in the next row
                     // we remove the active-row class from the curretn row and add it to the next one
-                    UpdateClasses(getCurrentRow()[0] - 1)
+                    console.log('your attempt has been failed')
+                    userGuess = ''
+                    if (NumberOFAttempts <= 5){
+                        UpdateClasses(getCurrentRow()[0] - 1)
+                    }
+                    else {
+                        alertDiv.innerHTML = 'YOU HAVE TRIED ALL THE NEEDED ATTEMPTS'
+                        setTimeout(() => {
+                            alertDiv.innerHTML = `THE CORRECT WORD is ${word}`
+                        } , 2000)
+
+                    }
                 }
                 
             }
             else {
-                alertDiv.innerHTML = 'enter the complete five word char'
-                setTimeout(() => {
-                    alertDiv.innerHTML = ''
-                } , 2000)
+                
             }
         }
 
@@ -96,11 +111,15 @@ const ListenToUserGuess = function(){
             // if we are in the first cell no need to delete the active-cell class
             if (currentCell == 1){
                 getCurrentCell()[1].innerHTML = '';
+                userGuess = userGuess.slice(0, -1)
+                console.log(userGuess)
                 getCurrentCell()[1].style.color = '#aaa'
                 getCurrentCell()[1].style.border = '1px solid #aaa'
             }
             else {
                 getCurrentCell()[1].innerHTML = '';
+                userGuess = userGuess.slice(0, -1)
+                console.log(userGuess)
                 getCurrentCell()[1].style.color = '#aaa'
                 getCurrentCell()[1].style.border = '1px solid #aaa'
                 getCurrentRow()[1].children[currentCell - 1].classList.remove('active-cell')
@@ -125,6 +144,10 @@ const UpdateClasses = function(rowNumber){
     gird.children[rowNumber + 1].classList.add('active-row');
     // we add active-cell class for the first cell in the next row 
     gird.children[rowNumber + 1].children[0].classList.add('active-cell')
+}
+
+const showAttemptStatus = function(rowNumber) {
+    
 }
 
 buildGrid();
